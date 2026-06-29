@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icon.png">
+    <title>المنصة المتقدمة للعلوم الإسلامية</title>
+    <style>
+        /* Modern CSS Variables & Theming */
+        :root {
+            --bg-main: #030a16;
+            --bg-surface: #0a192f;
+            --bg-surface-light: #172a45;
+            --emerald: #10b981;
+            --emerald-glow: #00ff87;
+            --emerald-dark: #059669;
+            --gold: #f59e0b;
+            --gold-glow: #fbbf24;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #1e293b;
+            --ruby: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Abstract Islamic Geometric Accents using CSS */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.03) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navigation Layout */
+        nav {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+        }
+
+        .brand span {
+            color: var(--emerald-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--emerald-glow);
+            background-color: var(--bg-surface-light);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        /* Core View Manager */
+        .view-container {
+            flex: 1;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .view-container.active {
+            display: block;
+        }
+
+        /* Global Reusable Design Tokens */
+        .panel {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .panel::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--emerald-glow), transparent);
+            border-radius: 0 0 4px 4px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--emerald-dark), var(--emerald));
+            color: #000;
+            font-weight: 600;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Home Dashboard Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        .showcase-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 1rem;
+            background: linear-gradient(135deg, #06152d 0%, #0b2244 100%);
+            border-right: 4px solid var(--emerald-glow);
+            border-left: none;
+        }
+
+        /* Selection Matrices */
+        .selection-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-select {
+            background-color: var(--bg-surface-light);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .card-select:hover {
+            border-color: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        .card-select.selected {
+            border-color: var(--emerald-glow);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        /* Quiz Interface Elements */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .timer-track {
+            width: 100%;
+            height: 6px;
+            background-color: var(--bg-surface-light);
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--emerald), var(--emerald-glow));
+            transition: width 0.1s linear;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-box {
+            font-size: 1.4rem;
+            line-height: 1.5;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 600px) {
+            .answers-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .answer-btn {
+            background-color: var(--bg-surface-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 1.2rem;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .answer-btn:hover {
+            border-color: var(--text-muted);
+            background-color: rgba(23, 42, 69, 0.8);
+        }
+
+        .answer-btn.correct {
+            background-color: rgba(16, 185, 129, 0.15) !important;
+            border-color: var(--emerald-glow) !important;
+            color: var(--emerald-glow);
+        }
+
+        .answer-btn.wrong {
+            background-color: rgba(239, 68, 68, 0.15) !important;
+            border-color: var(--ruby) !important;
+            color: #fca5a5;
+            animation: shake 0.3s ease;
+        }
+
+        /* Review Matrix Box */
+        .explanation-box {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            background-color: rgba(23, 42, 69, 0.5);
+            border-right: 3px solid var(--gold);
+            border-left: none;
+            border-radius: 4px;
+            display: none;
+            animation: slideDown 0.3s ease forwards;
+        }
+
+        .explanation-box h4 {
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .explanation-box p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .action-tray {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Stats & Achievement Grid Configs */
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-surface-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-card .val {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--emerald-glow);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-card .lbl {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .achievement-card {
+            background-color: var(--bg-surface-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card.unlocked {
+            opacity: 1;
+            border-color: rgba(245, 158, 11, 0.3);
+            background: linear-gradient(135deg, var(--bg-surface-light) 0%, rgba(245, 158, 11, 0.02) 100%);
+        }
+
+        .badge-icon {
+            font-size: 2rem;
+            background-color: var(--bg-surface);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+        }
+
+        .achievement-card.unlocked .badge-icon {
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+        }
+
+        /* Explorer Search Node */
+        .search-tray {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            background-color: var(--bg-surface-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .search-bar:focus {
+            outline: 1px solid var(--emerald-glow);
+        }
+
+        .explorer-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-left: 0.5rem;
+        }
+
+        .explorer-card {
+            background-color: var(--bg-surface-light);
+            border-radius: 6px;
+            padding: 1rem;
+            border-right: 3px solid var(--emerald);
+            border-left: none;
+        }
+
+        .explorer-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Leaderboard Array mapping */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .leaderboard-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .leaderboard-table tr:hover td {
+            background-color: rgba(23, 42, 69, 0.3);
+        }
+
+        /* Runtime Keyframe Engine */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-surface-light); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">🕋 <span>أقراء باسم ربك الذي خلق</span></div>
+        <div class="nav-links">
+            <button class="nav-btn active" id="btn-home" onclick="switchView('home')">لوحة التحكم</button>
+            <button class="nav-btn" id="btn-explorer" onclick="switchView('explorer')">المستكشف</button>
+            <button class="nav-btn" id="btn-leaderboard" onclick="switchView('leaderboard')">لوحة الصدارة</button>
+            <button class="nav-btn" id="btn-stats" onclick="switchView('stats')">التحليلات</button>
+        </div>
+    </nav>
+
+    <main id="view-home" class="view-container active">
+        <div class="dashboard-grid">
+            <div style="display:flex; flex-direction:column; gap:2rem;">
+                <div class="panel showcase-box">
+                    <h2 style="margin:0; color:var(--emerald-glow);">مسار طالب العلم</h2>
+                    <p style="color:var(--text-secondary); max-width:600px;">تقدم عبر مصفوفات المعرفة الموثقة التي تشمل التاريخ الإسلامي، العقيدة، الفقه، والعلوم الشريفة. قم بتكوين إعدادات النظام أدناه لبدء الاختبار.</p>
+                </div>
+
+                <div class="panel">
+                    <h2>1. اختر وحدة المعرفة</h2>
+                    <div class="selection-matrix" id="category-matrix">
+                        </div>
+
+                    <h2>2. حدد مستوى الصعوبة</h2>
+                    <div class="selection-matrix" id="difficulty-matrix">
+                        <div class="card-select selected" data-diff="Easy"><h3>سهل</h3><p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.25rem;">مضاعف 1x</p></div>
+                        <div class="card-select" data-diff="Medium"><h3>متوسط</h3><p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.25rem;">مضاعف 1.5x</p></div>
+                        <div class="card-select" data-diff="Hard"><h3>صعب</h3><p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.25rem;">مضاعف 2x</p></div>
+                        <div class="card-select" data-diff="Scholar"><h3>عالم</h3><p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.25rem;">مضاعف 3x</p></div>
+                    </div>
+
+                    <button class="btn-primary" onclick="startQuizEngine()">تشغيل النظام الأساسي ➔</button>
+                </div>
+            </div>
+
+            <div class="panel" style="height: fit-content;">
+                <h3 style="color:var(--gold); margin-bottom:1rem;">سلامة النظام</h3>
+                <div style="display:flex; flex-direction:column; gap:1rem;" id="side-stats-panel">
+                    </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="view-quiz" class="view-container">
+        <div class="panel" style="max-width: 850px; margin: 0 auto;">
+            <div class="quiz-header">
+                <div>
+                    <span id="active-category-badge" style="background-color:var(--bg-surface-light); padding:0.4rem 0.8rem; border-radius:4px; font-size:0.85rem; font-weight:600; color:var(--emerald-glow);">الوحدة</span>
+                    <span id="active-difficulty-badge" style="background-color:rgba(245,158,11,0.1); padding:0.4rem 0.8rem; border-radius:4px; font-size:0.85rem; font-weight:600; color:var(--gold); margin-right:0.5rem;">المستوى</span>
+                </div>
+                <div style="font-weight:700; font-size:1.1rem; color:var(--text-primary);" id="score-counter">النقاط: 0</div>
+            </div>
+
+            <div class="progress-meta">
+                <span id="progress-text">معالجة العقدة 0/0</span>
+                <span id="timer-text">مصفوفة الوقت: 30 ثانية</span>
+            </div>
+            <div class="timer-track">
+                <div class="timer-bar" id="timer-bar"></div>
+            </div>
+
+            <div class="question-box" id="question-payload">
+                جاري تحميل البيانات من قاعدة المصفوفات...
+            </div>
+
+            <div class="answers-grid" id="answers-payload">
+                </div>
+
+            <div class="explanation-box" id="explanation-tray">
+                <h4>السياق العلمي والتحقق</h4>
+                <p id="explanation-text"></p>
+            </div>
+
+            <div class="action-tray">
+                <button class="btn-primary" id="next-node-btn" style="display:none;" onclick="advanceQuizEngine()">العقدة التالية ➔</button>
+            </div>
+        </div>
+    </main>
+
+    <main id="view-summary" class="view-container">
+        <div class="panel" style="max-width: 600px; margin: 0 auto; text-align: center;">
+            <h2 style="justify-content: center; color:var(--emerald-glow); font-size:2.2rem;">انتهت الجلسة</h2>
+            <p style="color:var(--text-secondary); margin-bottom:2rem;">تمت معالجة البيانات بنجاح وحساب النتائج النهائية.</p>
+            
+            <div class="stats-strip" style="grid-template-columns: 1fr 1fr; margin-bottom:2rem;">
+                <div class="stat-card">
+                    <div class="val" id="summary-score">0</div>
+                    <div class="lbl">مجموع النقاط المحققة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="val" id="summary-accuracy">0%</div>
+                    <div class="lbl">مصفوفة الدقة</div>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:1rem; justify-content:center;">
+                <button class="btn-primary" onclick="switchView('home')">العودة للوحة التحكم</button>
+                <button class="btn-primary" style="background:var(--bg-surface-light); color:var(--text-primary); border:1px solid var(--border-color);" onclick="switchView('stats')">تحليل عميق</button>
+            </div>
+        </div>
+    </main>
+
+    <main id="view-explorer" class="view-container">
+        <div class="panel">
+            <h2>مستكشف قاعدة المعرفة</h2>
+            <p style="color:var(--text-secondary); margin-bottom:1.5rem;">ابحث واطلع على العناصر البرمجية المصنفة داخل النظام.</p>
+            
+            <div class="search-tray">
+                <input type="text" class="search-bar" id="explorer-search-input" placeholder="ابحث في المعايير (مثل: قرآن، خليفة، سورة)..." oninput="runExplorerSearch()">
+            </div>
+
+            <div class="explorer-results" id="explorer-results-target">
+                </div>
+        </div>
+    </main>
+
+    <main id="view-leaderboard" class="view-container">
+        <div class="panel">
+            <h2>سجل الأرقام القياسية</h2>
+            <p style="color:var(--text-secondary); margin-bottom:1.5rem;">دفتر الحسابات المحفوظ لأعلى جولات التشغيل المسجلة.</p>
+            
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>الترتيب</th>
+                        <th>التوقيت</th>
+                        <th>الوحدة المعرفية</th>
+                        <th>مستوى الصعوبة</th>
+                        <th>النقاط المحسوبة</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-target">
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <main id="view-stats" class="view-container">
+        <div class="panel" style="margin-bottom: 2rem;">
+            <h2>التشخيص التحليلي</h2>
+            <div class="stats-strip">
+                <div class="stat-card"><div class="val" id="stat-total-runs">0</div><div class="lbl">إجمالي المحاولات</div></div>
+                <div class="stat-card"><div class="val" id="stat-total-ans">0</div><div class="lbl">الأسئلة المعالجة</div></div>
+                <div class="stat-card"><div class="val" id="stat-global-acc">0%</div><div class="lbl">متوسط الدقة</div></div>
+                <div class="stat-card"><div class="val" id="stat-highest-score">0</div><div class="lbl">أعلى رقم قياسي</div></div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>الإنجازات المكتسبة (الشارات)</h2>
+            <p style="color:var(--text-secondary); margin-bottom:1.5rem;">المراحل التي تم فك قفلها بناءً على قواعد التحقق للنظام.</p>
+            <div class="achievements-grid" id="achievements-target">
+                </div>
+        </div>
+    </main>
+
+    <script>
+        /*******************************************************************
+         * SYSTEM CORE KNOWLEDGE CORRECTIONS & ARRAYS (Verified Engine)
+         *******************************************************************/
+        const KNOWLEDGE_BASE = [
+            { id: 1, category: "القرآن الكريم", difficulty: "Easy", question: "ما هي السورة المعترف بها كأطول سورة في القرآن الكريم؟", options: ["سورة آل عمران", "سورة البقرة", "سورة النساء", "سورة المائدة"], correct: "سورة البقرة", context: "تتكون سورة البقرة من 286 آية وتحتوي على أطول آية في القرآن (آية الدين، 2:282)." },
+            { id: 2, category: "القرآن الكريم", difficulty: "Medium", question: "كم عدد سجدات التلاوة المثبتة في نص القرآن الكريم كاملاً؟", options: ["12 سجدة", "14 سجدة", "15 سجدة", "11 سجدة"], correct: "15 سجدة", context: "وفقاً للراجح والمشهود في المذاهب الفقهية، هناك 15 موضعاً للسجود في آيات القرآن الكريم." },
+            { id: 3, category: "القرآن الكريم", difficulty: "Hard", question: "من هو الصحابي الذي اختاره أبو بكر الصديق لقيادة اللجنة الأولى لجمع القرآن الكريم؟", options: ["زيد بن ثابت", "أبي بن كعب", "عبد الله بن مسعود", "علي بن أبي طالب"], correct: "زيد بن ثابت", context: "تم اختيار زيد بن ثابت لمكانته الخاصة ككاتب للوحي وحفظه المتقن والدقيق لآيات التنزيل." },
+            { id: 4, category: "القرآن الكريم", difficulty: "Scholar", question: "على أي حرف (لهجة) من الأحرف السبعة تم توحيد المصحف العثماني لتحقيق التزامن اللغوي الكامل؟", options: ["لهجة قريش", "لهجة هذيل", "لهجة تميم", "لهجة هوازن"], correct: "لهجة قريش", context: "أمر عثمان بن عفان برسم المصحف بلسان قريش، لأن القرآن نزل بلغتهم ابتداءً، منعا للاختلاف." },
+            
+            { id: 5, category: "الحديث النبوي", difficulty: "Easy", question: "من هو الإمام الذي جمع كتاب 'الجامع الصحيح' الذي يعد أصح كتاب بعد كتاب الله إلى جانب صحيح مسلم؟", options: ["الإمام البخاري", "الإمام مالك", "الإمام أحمد", "الإمام أبو داود"], correct: "الإمام البخاري", context: "صحيح البخاري يحتل المرتبة الأولى في الصحة الصارمة للرواية والتحقق الحديثي الدقيق." },
+            { id: 6, category: "الحديث النبوي", difficulty: "Medium", question: "ما هو تصنيف الحديث النبوي إذا سقط من سلسلة سنده الصحابي ورفعه التابعي مباشرة؟", options: ["موضوع", "مرسل", "معلق", "مدلس"], correct: "مرسل", context: "الحديث المرسل هو ما رفعه التابعي إلى الرسول ﷺ مباشرة دون ذكر الصحابي الواسطة." },
+            { id: 7, category: "الحديث النبوي", difficulty: "Hard", question: "ما هو المعيار المنهجي الذي يميز الحديث القدسي عن الحديث النبوي القياسي؟", options: ["المعنى من الله واللفظ بصياغة النبي ﷺ", "لا يجوز قراءته إلا داخل الصلاة فقط", "نُقل حصراً عبر الملائكة دون سند بشري", "لا يتطلب الخضوع لقواعد التحقق السندي"], correct: "المعنى من الله واللفظ بصياغة النبي ﷺ", context: "الحديث القدسي هو ما يرويه النبي ﷺ عن ربه تبارك وتعالى بالمعنى، واللفظ من النبي." },
+            { id: 8, category: "الحديث النبوي", difficulty: "Scholar", question: "من هو الحافظ الجهبذ صاحب الشرح التاريخي الشهير 'فتح الباري' على صحيح الإمام البخاري؟", options: ["ابن كثير", "ابن حجر العسقلاني", "الإمام النووي", "جلال الدين السيوطي"], correct: "ابن حجر العسقلاني", context: "أمضى الحافظ ابن حجر العسقلاني عقوداً في تصنيف فتح الباري، ليمثل قمة التحليل العلمي للحديث البخاري." },
+
+            { id: 9, category: "السيرة النبوية", difficulty: "Easy", question: "إلى أي مدينة هاجر المسلمون الأوائل في الحدث التاريخي المفصلي المعروف بالهجرة النبوية؟", options: ["مكة المكرمة", "يثرب (المدينة المنورة)", "الطائف", "الحبشة"], correct: "يثرب (المدينة المنورة)", context: "أعادت الهجرة تنظيم الهيكل العملياتي للمجتمع الإسلامي بنقله من مكة إلى يثرب التي سُميت بالمدينة المنورة." },
+            { id: 10, category: "السيرة النبوية", difficulty: "Medium", question: "في أي سنة هجرية وقعت الغزوة الدفاعية الكبرى المعروفة بغزوة الخندق (الأحزاب)؟", options: ["2 هـ", "3 هـ", "5 هـ", "7 هـ"], correct: "5 هـ", context: "وقعت غزوة الخندق في السنة الخامسة للهجرة، حيث تم استخدام استراتيجية الخندق الدفاعي بمشورة سلمان الفارسي." },
+            { id: 11, category: "السيرة النبوية", difficulty: "Hard", question: "ما اسم الصلح المبرم بين المسلمين وقريش في السنة السادسة للهجرة والذي نص على هدنة مدتها 10 سنوات؟", options: ["صلح الحديبية", "بيعة العقبة", "وثيقة المدينة", "بيعة الرضوان"], correct: "صلح الحديبية", context: "فتح صلح الحديبية نافذة استراتيجية لنشر الإسلام وبناء المعاهدات وتثبيت دعائم الدولة السلمية." },
+            { id: 12, category: "السيرة النبوية", difficulty: "Scholar", question: "ما اللقب الذي أطلق على حملة تبوك نظراً للظروف الاقتصادية والمالية القاسية الشديدة التي واجهت المسلمين؟", options: ["جيش العسرة", "غزوة الفتح", "جيش اليرموك", "غزوة الغابة"], correct: "جيش العسرة", context: "سمي بجيش العسرة لقلة النفقة والماء والظهر، والحر الشديد الذي تزامن مع وقت جني الثمار." },
+
+            { id: 13, category: "العقيدة", difficulty: "Easy", question: "كم عدد أركان الإيمان الأساسية التي يقوم عليها بناء العقيدة الإسلامية الصحيحة؟", options: ["5 أركان", "6 أركان", "7 أركان", "4 أركان"], correct: "6 أركان", context: "أركان الإيمان الستة هي: الإيمان بالله، وملائكته، وكتبه، ورسله، واليوم الآخر، والقدر خيره وشره." },
+            { id: 14, category: "العقيدة", difficulty: "Medium", question: "أي المفاهيم الآتية يعبر عن إفراد الله سبحانه وتعالى بأفعاله كالخلق والرزق والتدبير والملك؟", options: ["توحيد الألوهية", "توحيد الربوبية", "توحيد الأسماء والصفات", "توحيد العبادة"], correct: "توحيد الربوبية", context: "توحيد الربوبية هو الإيمان الجازم بأن الله وحده الخالق، المالك، الرازق، المدبر لجميع الأمور في الكون." },
+            { id: 15, category: "العقيدة", difficulty: "Hard", question: "ما هو الوصف العقدي الدقيق لمن يزين عبادته ويحسنها أمام الناس لكي ينال مدحهم وثنائهم؟", options: ["الشرك الأكبر", "الرياء (الشرك الأصغر)", "النفاق الأكبر", "الكفر الأصغر"], correct: "الرياء (الشرك الأصغر)", context: "يصنف الرياء كشرك أصغر خفي، يحبط العمل الذي خالطه، وينافي كمال الإخلاص المستحق لله تبارك وتعالى." },
+            { id: 16, category: "العقيدة", difficulty: "Scholar", question: "ما هو المتن العقدي الشهير الذي صممه الإمام الطحاوي ليمثلBaseline لمعتقد أهل السنة والجماعة؟", options: ["العقيدة الطحاوية", "الفقه الأكبر", "كتاب التوحيد", "العقيدة الواسطية"], correct: "العقيدة الطحاوية", context: "لخص الإمام أبو جعفر الطحاوي عقيدة السلف الصالح وعلماء المذاهب الكبار بعبارات منضبطة ومتفق عليها." },
+
+            { id: 17, category: "الفقه الفقهي", difficulty: "Easy", question: "ما هو الحكم الفقهي للفعِل الذي يُثاب فاعله امتثالاً ولا يُعاقب تاركه؟", options: ["الفرض", "المندوب / المستحب", "المكروه", "المباح"], correct: "المندوب / المستحب", context: "المستحب أو المندوب (كصلاة النافلة) يضيف أجراً لرصيد العبد ولا يترتب على تركه أي عقوبة شرعية." },
+            { id: 18, category: "الفقه الفقهي", difficulty: "Medium", question: "ما هو الوزن الأدنى بالجرامات (النصاب) المحدد للذهب عيار 24 قبل أن تجب فيه الزكاة الشرعية؟", options: ["85 جراماً", "100 جراماً", "92 جراماً", "75 جراماً"], correct: "85 جراماً", context: "نصاب الذهب الشرعي هو 20 مثقالاً، وهو ما يعادل بدقة 85 جراماً من الذهب الخالص الحاد النقاء." }
+        ];
+
+        // System Runtime States
+        let currentEngineView = 'home';
+        let activeQuizNodes = [];
+        let currentNodeIndex = 0;
+        let userCurrentScore = 0;
+        let systemTimerInterval = null;
+        let remainingSeconds = 30;
+        let selectedCategory = '';
+        let selectedDifficulty = 'Easy';
+        let totalCorrectAnswers = 0;
+
+        // Statistics Persistent Framework
+        let analyticsStorage = {
+            totalRuns: 0,
+            queriesProcessed: 0,
+            accumulatedAccuracySum: 0,
+            peakScoreRecord: 0
+        };
+
+        /*******************************************************************
+         * SYSTEM CORE METHODS & ENGINE ENGINE CONTROLLERS
+         *******************************************************************/
+        window.onload = function() {
+            initializeMatrixLayouts();
+            loadAnalyticsData();
+            switchView('home');
+        };
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            const targetView = document.getElementById(`view-${viewId}`);
+            if(targetView) targetView.classList.add('active');
+            
+            const targetBtn = document.getElementById(`btn-${viewId}`);
+            if(targetBtn) targetBtn.classList.add('active');
+            
+            currentEngineView = viewId;
+            clearInterval(systemTimerInterval);
+
+            if(viewId === 'home') renderDashboardStats();
+            if(viewId === 'explorer') runExplorerSearch();
+            if(viewId === 'leaderboard') renderLeaderboardView();
+            if(viewId === 'stats') renderInDepthAnalytics();
+        }
+
+        function initializeMatrixLayouts() {
+            // Extrapolate distinct categories
+            const uniqueCats = [...new Set(KNOWLEDGE_BASE.map(item => item.category))];
+            const catMatrix = document.getElementById('category-matrix');
+            catMatrix.innerHTML = '';
+
+            uniqueCats.forEach((cat, index) => {
+                const card = document.createElement('div');
+                card.className = `card-select ${index === 0 ? 'selected' : ''}`;
+                if(index === 0) selectedCategory = cat;
+                card.innerHTML = `<h3>${cat}</h3><p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.25rem;">وحدة كاملة</p>`;
+                card.onclick = function() {
+                    document.querySelectorAll('#category-matrix .card-select').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    selectedCategory = cat;
+                };
+                catMatrix.appendChild(card);
+            });
+
+            // Difficulty matrix bindings
+            document.querySelectorAll('#difficulty-matrix .card-select').forEach(card => {
+                card.onclick = function() {
+                    document.querySelectorAll('#difficulty-matrix .card-select').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    selectedDifficulty = card.getAttribute('data-diff');
+                };
+            });
+        }
+
+        function startQuizEngine() {
+            // Filter targets matching selection
+            activeQuizNodes = KNOWLEDGE_BASE.filter(item => item.category === selectedCategory && item.difficulty === selectedDifficulty);
+            
+            if(activeQuizNodes.length === 0) {
+                // Fail-safe default filter fallback
+                activeQuizNodes = KNOWLEDGE_BASE.filter(item => item.category === selectedCategory);
+            }
+
+            currentNodeIndex = 0;
+            userCurrentScore = 0;
+            totalCorrectAnswers = 0;
+
+            document.getElementById('active-category-badge').innerText = selectedCategory;
+            
+            const diffTranslation = { "Easy": "سهل", "Medium": "متوسط", "Hard": "صعب", "Scholar": "عالم" };
+            document.getElementById('active-difficulty-badge').innerText = diffTranslation[selectedDifficulty] || selectedDifficulty;
+
+            switchView('quiz');
+            loadCurrentQuestionNode();
+        }
+
+        function loadCurrentQuestionNode() {
+            clearInterval(systemTimerInterval);
+            if(currentNodeIndex >= activeQuizNodes.length) {
+                terminateSessionRun();
+                return;
+            }
+
+            document.getElementById('explanation-tray').style.display = 'none';
+            document.getElementById('next-node-btn').style.display = 'none';
+
+            const activeNode = activeQuizNodes[currentNodeIndex];
+            document.getElementById('progress-text').innerText = `معالجة العقدة ${currentNodeIndex + 1} من أصل ${activeQuizNodes.length}`;
+            document.getElementById('question-payload').innerText = activeNode.question;
+
+            const answersPayload = document.getElementById('answers-payload');
+            answersPayload.innerHTML = '';
+
+            activeNode.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.innerText = opt;
+                btn.onclick = function() { evaluateUserSelection(btn, opt); };
+                answersPayload.appendChild(btn);
+            });
+
+            remainingSeconds = 30;
+            updateTimerDisplayUI();
+            systemTimerInterval = setInterval(handleClockTick, 1000);
+        }
+
+        function handleClockTick() {
+            remainingSeconds--;
+            updateTimerDisplayUI();
+            if(remainingSeconds <= 0) {
+                clearInterval(systemTimerInterval);
+                // Trigger auto-advance penalty timeout on zero seconds
+                evaluateUserSelection(null, '');
+            }
+        }
+
+        function updateTimerDisplayUI() {
+            document.getElementById('timer-text').innerText = `مصفوفة الوقت: ${remainingSeconds} ثانية`;
+            const percent = (remainingSeconds / 30) * 100;
+            document.getElementById('timer-bar').style.width = `${percent}%`;
+        }
+
+        function evaluateUserSelection(selectedBtn, selectedOption) {
+            clearInterval(systemTimerInterval);
+            const activeNode = activeQuizNodes[currentNodeIndex];
+            
+            // Block all alternative interaction buttons
+            document.querySelectorAll('#answers-payload .answer-btn').forEach(btn => btn.disabled = true);
+
+            let multiplier = 1;
+            if(selectedDifficulty === 'Medium') multiplier = 1.5;
+            if(selectedDifficulty === 'Hard') multiplier = 2;
+            if(selectedDifficulty === 'Scholar') multiplier = 3;
+
+            const basePoints = 100 * multiplier;
+
+            if(selectedOption === activeNode.correct) {
+                if(selectedBtn) selectedBtn.classList.add('correct');
+                userCurrentScore += basePoints;
+                totalCorrectAnswers++;
+                document.getElementById('score-counter').innerText = `النقاط: ${userCurrentScore}`;
+            } else {
+                if(selectedBtn) selectedBtn.classList.add('wrong');
+                // Highlight real correct parameter nodes
+                document.querySelectorAll('#answers-payload .answer-btn').forEach(btn => {
+                    if(btn.innerText === activeNode.correct) btn.classList.add('correct');
+                });
+            }
+
+            document.getElementById('explanation-text').innerText = activeNode.context;
+            document.getElementById('explanation-tray').style.display = 'block';
+
+            currentNodeIndex++;
+
+            // [تعديل أساسي]: الانتقال التلقائي الفوري إلى السؤال التالي بعد 1.5 ثانية فقط دون الحاجة للنقر
+            setTimeout(() => {
+                loadCurrentQuestionNode();
+            }, 1500);
+        }
+
+        function advanceQuizEngine() {
+            // تم الإبقاء على الدالة لضمان عدم حدوث أخطاء مرجعية، التمرير الفعلي يتم تلقائياً الآن.
+            loadCurrentQuestionNode();
+        }
+
+        function terminateSessionRun() {
+            switchView('summary');
+            document.getElementById('summary-score').innerText = userCurrentScore;
+            
+            const accuracy = activeQuizNodes.length > 0 ? Math.round((totalCorrectAnswers / activeQuizNodes.length) * 100) : 0;
+            document.getElementById('summary-accuracy').innerText = `${accuracy}%`;
+
+            // Push execution run metrics into storage arrays
+            analyticsStorage.totalRuns++;
+            analyticsStorage.queriesProcessed += activeQuizNodes.length;
+            analyticsStorage.accumulatedAccuracySum += accuracy;
+            if(userCurrentScore > analyticsStorage.peakScoreRecord) {
+                analyticsStorage.peakScoreRecord = userCurrentScore;
+            }
+
+            saveAnalyticsData();
+            pushLeaderboardRecord(userCurrentScore);
+        }
+
+        /*******************************************************************
+         * AUXILIARY STORAGE & PRESENTATION MAP DATA FUNCTIONS
+         *******************************************************************/
+        function saveAnalyticsData() {
+            localStorage.setItem('alqalam_analytics', JSON.stringify(analyticsStorage));
+        }
+
+        function loadAnalyticsData() {
+            const saved = localStorage.getItem('alqalam_analytics');
+            if(saved) {
+                analyticsStorage = JSON.parse(saved);
+            }
+        }
+
+        function renderDashboardStats() {
+            const sidePanel = document.getElementById('side-stats-panel');
+            sidePanel.innerHTML = `
+                <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+                    <span style="color:var(--text-secondary);">المحاولات الإجمالية:</span>
+                    <span style="font-weight:600; color:var(--emerald-glow);">${analyticsStorage.totalRuns}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
+                    <span style="color:var(--text-secondary);">أعلى مجموع نقاط:</span>
+                    <span style="font-weight:600; color:var(--gold-glow);">${analyticsStorage.peakScoreRecord}</span>
+                </div>
+            `;
+        }
+
+        function runExplorerSearch() {
+            const query = document.getElementById('explorer-search-input').value.toLowerCase();
+            const target = document.getElementById('explorer-results-target');
+            target.innerHTML = '';
+
+            const filtered = KNOWLEDGE_BASE.filter(item => 
+                item.question.toLowerCase().includes(query) || 
+                item.category.toLowerCase().includes(query) ||
+                item.context.toLowerCase().includes(query)
+            );
+
+            if(filtered.length === 0) {
+                target.innerHTML = '<p style="color:var(--text-muted); text-align:center;">لم يتم العثور على سجلات مطابقة.</p>';
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'explorer-card';
+                card.innerHTML = `
+                    <h4 style="color:var(--text-primary); margin-bottom:0.5rem;">${item.question}</h4>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.4;"><strong>الإجابة الصحيحة:</strong> ${item.correct}</p>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;">${item.context}</p>
+                    <div class="explorer-meta">
+                        <span>وحدة: ${item.category}</span>
+                        <span>مستوى: ${item.difficulty}</span>
+                    </div>
+                `;
+                target.appendChild(card);
+            });
+        }
+
+        function pushLeaderboardRecord(score) {
+            let leaderboard = JSON.parse(localStorage.getItem('alqalam_leaderboard') || '[]');
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }) + ' ' + now.toLocaleDateString('ar-EG');
+            
+            leaderboard.push({
+                timestamp: timeStr,
+                category: selectedCategory,
+                difficulty: selectedDifficulty,
+                score: score
+            });
+
+            // Sort descending tracking records
+            leaderboard.sort((a,b) => b.score - a.score);
+            leaderboard = leaderboard.slice(0, 10); // keep top 10 rows
+            localStorage.setItem('alqalam_leaderboard', JSON.stringify(leaderboard));
+        }
+
+        function renderLeaderboardView() {
+            const target = document.getElementById('leaderboard-target');
+            target.innerHTML = '';
+            const leaderboard = JSON.parse(localStorage.getItem('alqalam_leaderboard') || '[]');
+
+            if(leaderboard.length === 0) {
+                target.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">لا توجد جولات تشغيل مسجلة حتى الآن.</td></tr>`;
+                return;
+            }
+
+            leaderboard.forEach((row, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight:700; color:${i===0 ? 'var(--gold)' : 'var(--text-primary)'};">#${i+1}</td>
+                    <td>${row.timestamp}</td>
+                    <td>${row.category}</td>
+                    <td>${row.difficulty}</td>
+                    <td style="font-weight:600; color:var(--emerald-glow);">${row.score}</td>
+                `;
+                target.appendChild(tr);
+            });
+        }
+
+        function renderInDepthAnalytics() {
+            document.getElementById('stat-total-runs').innerText = analyticsStorage.totalRuns;
+            document.getElementById('stat-total-ans').innerText = analyticsStorage.queriesProcessed;
+            document.getElementById('stat-highest-score').innerText = analyticsStorage.peakScoreRecord;
+
+            const avg = analyticsStorage.totalRuns > 0 ? Math.round(analyticsStorage.accumulatedAccuracySum / analyticsStorage.totalRuns) : 0;
+            document.getElementById('stat-global-acc').innerText = `${avg}%`;
+
+            // Render Achievements Matrix Nodes
+            const achievementsTarget = document.getElementById('achievements-target');
+            achievementsTarget.innerHTML = '';
+
+            const systemBadges = [
+                { title: "المستكشف الأول", desc: "بدء محاولة تشغيل واحدة بالنظام", cond: analyticsStorage.totalRuns >= 1, icon: "📖" },
+                { title: "حافظ المتون", desc: "معالجة أكثر من 15 سؤالاً بنجاح", cond: analyticsStorage.queriesProcessed >= 15, icon: "🛡️" },
+                { title: "العالم الجهبذ", desc: "تحقيق نتيجة تفوق 500 نقطة بالجولة", cond: analyticsStorage.peakScoreRecord >= 500, icon: "👑" }
+            ];
+
+            systemBadges.forEach(badge => {
+                const card = document.createElement('div');
+                card.className = `achievement-card ${badge.cond ? 'unlocked' : ''}`;
+                card.innerHTML = `
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div>
+                        <h4 style="color:${badge.cond ? 'var(--gold-glow)' : 'var(--text-muted)'}">${badge.title}</h4>
+                        <p style="font-size:0.8rem; color:var(--text-secondary);">${badge.desc}</p>
+                    </div>
+                `;
+                achievementsTarget.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
